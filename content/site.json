@@ -1,0 +1,32 @@
+{
+  "podkastLansert": false,
+  "omOssKort": "Tre supportere som brenner for laget. Uavhengig, uten reklame og uten salg – bare ærlig prat i medgang og motgang.",
+  "omOss": "Mellomrommet er laget av tre uavhengige supportere. Vi har ingenting å selge og er ikke tilknyttet klubben – vi elsker laget og liker å prate om det.\n\nVi står han av. I medgang og i motgang.",
+  "programledere": [
+    {
+      "navn": "[Navn 1]",
+      "om": "[Kort om deg.]"
+    },
+    {
+      "navn": "[Navn 2]",
+      "om": "[Kort om deg.]"
+    },
+    {
+      "navn": "[Navn 3]",
+      "om": "[Kort om deg.]"
+    }
+  ],
+  "nesteKamp": {
+    "kamp": "",
+    "tidspunkt": "",
+    "arena": "",
+    "turnering": ""
+  },
+  "lenker": {
+    "spotify": "",
+    "apple": "",
+    "youtube": "https://www.youtube.com/@mellomrommetpodkast",
+    "instagram": "https://www.instagram.com/mellomrommetpodkast/",
+    "tiktok": "https://www.tiktok.com/@mellomrommetpodkast"
+  }
+}

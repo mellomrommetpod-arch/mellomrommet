@@ -1,0 +1,159 @@
+:root{
+  --bg:#0A0A0A; --surface:#161616; --surface2:#1C1C1C; --line:#262626; --line2:#3A3A3A;
+  --gul:#F2C21B; --krem:#EDE4CC; --tekst:#F5F5F5; --tekst2:#C7C7C7; --dempet:#A3A3A3;
+  --rad:6px; --maks:1240px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--tekst);font-family:Inter,system-ui,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--tekst);text-decoration:none}
+a:hover{color:var(--gul)}
+:focus-visible{outline:2px solid var(--gul);outline-offset:3px}
+h1,h2,h3,.oswald{font-family:Oswald,Impact,sans-serif;font-weight:700;line-height:1.08;margin:0}
+.wrap{max-width:var(--maks);margin:0 auto;padding:0 24px}
+.skip{position:absolute;left:-999px;top:0;background:var(--gul);color:#000;padding:8px 12px;z-index:100}
+.skip:focus{left:8px}
+
+/* Header */
+.header{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.header .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:12px;padding-bottom:12px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:52px;height:52px;border-radius:10px;object-fit:cover}
+.brand b{font-family:Oswald,sans-serif;font-size:24px;letter-spacing:1px;color:var(--gul);display:block;line-height:1}
+.brand small{display:block;color:var(--dempet);font-size:12px;margin-top:3px}
+.nav{display:flex;gap:26px;font-family:Oswald,sans-serif;text-transform:uppercase;letter-spacing:.5px;font-size:16px}
+.nav a[aria-current="page"]{color:var(--gul)}
+.knapp{display:inline-flex;align-items:center;gap:8px;background:var(--gul);color:#0A0A0A;font-family:Oswald,sans-serif;font-weight:600;text-transform:uppercase;font-size:15px;padding:12px 20px;border-radius:4px;border:0;cursor:pointer;transition:transform .15s,filter .15s}
+.knapp:hover{color:#0A0A0A;filter:brightness(1.08);transform:translateY(-1px)}
+.knapp.omriss{background:transparent;color:var(--tekst);border:1px solid var(--line2)}
+.knapp.omriss:hover{border-color:var(--gul);color:var(--gul)}
+.menyknapp{display:none;width:44px;height:44px;background:none;border:0;color:var(--tekst);cursor:pointer}
+@media (max-width:900px){
+  .nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:var(--bg);border-bottom:1px solid var(--line)}
+  .nav.open{display:flex}
+  .nav a{padding:14px 24px;border-top:1px solid var(--line)}
+  .menyknapp{display:flex;align-items:center;justify-content:center}
+  .header .lytt{display:none}
+}
+
+/* Ticker */
+.ticker{background:var(--gul);color:#0A0A0A;overflow:hidden;display:flex;align-items:center;font-weight:600;font-size:15px}
+.ticker .merke{flex-shrink:0;background:#0A0A0A;color:var(--gul);font-family:Oswald,sans-serif;text-transform:uppercase;padding:9px 14px;z-index:1}
+.ticker .spor{display:flex;gap:48px;white-space:nowrap;padding-left:24px;animation:rull 40s linear infinite}
+.ticker:hover .spor{animation-play-state:paused}
+.ticker a{color:#0A0A0A}
+.ticker a:hover{text-decoration:underline}
+.ticker .kat{font-family:Oswald,sans-serif;text-transform:uppercase;font-size:13px;opacity:.7;margin-right:8px}
+@keyframes rull{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* Typografi-hjelpere */
+.kat{font-family:Oswald,sans-serif;color:var(--gul);text-transform:uppercase;font-size:14px;letter-spacing:1px}
+.meta{font-size:13px;color:var(--dempet);text-transform:uppercase;font-weight:600;letter-spacing:.3px}
+.seksjonstittel{font-family:Oswald,sans-serif;text-transform:uppercase;font-size:26px;border-bottom:3px solid var(--gul);padding-bottom:10px;margin:0 0 20px;display:flex;justify-content:space-between;align-items:baseline}
+.seksjonstittel a{font-size:15px;color:var(--dempet)}
+main{padding:40px 0 72px}
+main > .wrap{display:flex;flex-direction:column;gap:64px}
+
+/* Forside: hovedsak */
+.lead{display:grid;grid-template-columns:2fr 1fr;gap:32px}
+.hovedsak{display:flex;flex-direction:column;gap:14px}
+.hovedsak .bilde{aspect-ratio:16/10;border-radius:var(--rad);overflow:hidden;background:var(--surface2)}
+.hovedsak .bilde img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.hovedsak:hover .bilde img{transform:scale(1.03)}
+.hovedsak h1{font-size:clamp(32px,4.2vw,52px);text-transform:none}
+.hovedsak p{margin:0;color:var(--tekst2);font-size:18px}
+.siste{display:flex;flex-direction:column}
+.siste h2{font-size:22px;text-transform:uppercase;border-bottom:3px solid var(--gul);padding-bottom:8px;margin-bottom:4px}
+.siste a{display:flex;flex-direction:column;gap:4px;padding:15px 0;border-bottom:1px solid var(--line)}
+.siste a span:last-child{font-family:Oswald,sans-serif;font-size:21px;line-height:1.2}
+.siste .meta{color:var(--gul)}
+
+.boks{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:24px}
+.nestekamp{margin-top:24px;display:flex;flex-direction:column;gap:6px}
+.nestekamp strong{font-family:Oswald,sans-serif;font-size:26px;font-weight:600}
+
+/* Episode */
+.episode{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;padding:32px}
+.episode > img{width:160px;height:160px;border-radius:8px;object-fit:cover}
+.episode h2{font-size:32px;margin:6px 0 10px}
+.episode p{margin:0 0 16px;color:var(--tekst2)}
+.spiller{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.spill{width:56px;height:56px;border-radius:50%;border:0;background:var(--gul);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:transform .15s}
+.spill:hover{transform:scale(1.06)}
+.spill svg{width:22px;height:22px;fill:#0A0A0A}
+.bar{flex:1;height:6px;background:#333;border-radius:3px;cursor:pointer;position:relative}
+.bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--gul);border-radius:3px}
+.tid{color:var(--dempet);font-size:14px;min-width:88px;text-align:right}
+.plattformer{display:flex;gap:10px;flex-wrap:wrap}
+@media (max-width:700px){.episode{grid-template-columns:1fr;padding:20px}.episode > img{width:100%;height:auto;aspect-ratio:1}}
+
+/* Kort */
+.kort-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px}
+.kort{display:flex;flex-direction:column;gap:10px;transition:transform .2s}
+.kort:hover{transform:translateY(-4px)}
+.kort .bilde{aspect-ratio:16/9;background:var(--surface2);border-radius:var(--rad);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.kort .bilde img{width:100%;height:100%;object-fit:cover}
+.kort .bilde .tomt{width:64px;opacity:.35}
+.kort h3{font-size:22px;line-height:1.2;font-weight:600}
+.kort p{margin:0;color:var(--dempet);font-size:15px}
+
+/* Om oss-bånd */
+.to{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.to img{border-radius:var(--rad);width:100%}
+.to h2{font-size:clamp(34px,4vw,48px);text-transform:uppercase;margin:8px 0 16px}
+.to p{color:var(--tekst2);font-size:18px;margin:0 0 12px}
+
+/* Skjema */
+.skjema{max-width:760px;display:flex;flex-direction:column;gap:12px}
+.skjema h2{font-size:28px;text-transform:uppercase}
+.skjema label{font-size:14px;font-weight:600}
+.skjema input,.skjema textarea{background:var(--bg);color:var(--tekst);border:1px solid var(--line2);border-radius:4px;padding:12px;font:inherit}
+.skjema textarea{min-height:120px;resize:vertical}
+.skjema .knapp{align-self:flex-start}
+.takk{color:var(--gul);font-weight:600}
+
+/* Filter */
+.filter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.filter button{background:var(--surface);color:var(--tekst);border:1px solid var(--line2);border-radius:999px;padding:10px 16px;font:600 14px Inter,sans-serif;cursor:pointer}
+.filter button[aria-pressed="true"]{background:var(--gul);color:#0A0A0A;border-color:var(--gul)}
+
+/* Artikkel */
+.artikkel{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.artikkel h1{font-size:clamp(34px,5vw,54px)}
+.artikkel .ingress{font-size:20px;color:var(--tekst2);margin:0}
+.artikkel .hovedbilde{border-radius:var(--rad);width:100%}
+.brodtekst{font-size:18px;line-height:1.7}
+.brodtekst a{color:var(--gul);text-decoration:underline}
+.kilde{border-left:3px solid var(--gul);padding:12px 16px;background:var(--surface);font-size:15px}
+
+/* Episodeliste */
+.ep-liste{display:flex;flex-direction:column;gap:16px}
+.ep-rad{display:grid;grid-template-columns:72px 1fr auto;gap:20px;align-items:center}
+.ep-rad .nr{font-family:Oswald,sans-serif;font-size:36px;color:var(--gul);text-align:center}
+.ep-rad h3{font-size:22px;font-weight:600;margin-bottom:4px}
+.ep-rad p{margin:0;color:var(--dempet);font-size:15px}
+@media (max-width:640px){.ep-rad{grid-template-columns:1fr}.ep-rad .nr{text-align:left}}
+
+/* Programledere */
+.personer{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
+.person h3{font-size:24px;margin-bottom:6px}
+.person p{margin:0;color:var(--tekst2)}
+
+/* Footer */
+.footer{border-top:1px solid var(--line);color:var(--dempet);font-size:14px}
+.footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:28px;padding-bottom:28px}
+.footer nav{display:flex;gap:18px}
+
+/* Animasjon inn ved scroll */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.vis{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto!important}
+  .reveal{opacity:1;transform:none;transition:none}
+  .ticker .spor{animation:none}
+  .kort,.knapp,.spill,.hovedsak .bilde img{transition:none}
+}
+@media (max-width:860px){.lead,.to{grid-template-columns:1fr}}
+.skjult{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.tom-melding{color:var(--dempet)}

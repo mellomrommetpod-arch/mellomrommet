@@ -1,0 +1,95 @@
+# Admin-sida for Mellomrommet (Decap CMS).
+# Koden ligger på github.com/mellomrommetpod-arch/mellomrommet
+backend:
+  name: github
+  repo: mellomrommetpod-arch/mellomrommet
+  branch: main
+  commit_messages:
+    update: "Oppdatert {{slug}} via admin"
+
+locale: nb_no
+media_folder: images/opplastet
+public_folder: /images/opplastet
+site_url: /
+display_url: /
+
+collections:
+  - name: innhold
+    label: Innhold
+    editor:
+      preview: false
+    files:
+      - name: saker
+        label: Saker
+        file: content/saker.json
+        fields:
+          - name: saker
+            label: Saker
+            label_singular: sak
+            widget: list
+            summary: "{{fields.dato | date('DD.MM.YYYY')}} – {{fields.tittel}}"
+            add_to_top: true
+            fields:
+              - { name: tittel, label: Tittel, widget: string }
+              - { name: slug, label: "Kortnavn i lenken (små bokstaver, bindestrek, unikt)", widget: string, pattern: ['^[a-z0-9-]+$', 'Bare små bokstaver, tall og bindestrek'] }
+              - name: kategori
+                label: Kategori
+                widget: select
+                options: [Kampreaksjon, Analyse, Overganger, Kommentar, Podkast, Historie, Nyhet]
+              - { name: dato, label: Publisert, widget: datetime }
+              - { name: ingress, label: Ingress, widget: text, required: false }
+              - { name: bilde, label: Bilde, widget: image, required: false }
+              - { name: brodtekst, label: Brødtekst, widget: markdown, buttons: [bold, italic, link, heading-two, bulleted-list], editor_components: [], required: false }
+              - { name: kilde, label: "Kilde-lenke (når saken bygger på en annen sak)", widget: string, required: false }
+              - { name: kildenavn, label: "Navn på kilden (f.eks. glimt.no)", widget: string, required: false }
+
+      - name: episoder
+        label: Episoder
+        file: content/episoder.json
+        fields:
+          - name: episoder
+            label: Episoder
+            label_singular: episode
+            widget: list
+            summary: "#{{fields.nr}} – {{fields.tittel}}"
+            add_to_top: true
+            fields:
+              - { name: nr, label: Episodenummer, widget: string }
+              - { name: tittel, label: Tittel, widget: string }
+              - { name: dato, label: Publisert, widget: datetime }
+              - { name: varighet, label: "Varighet (f.eks. 52 min)", widget: string, required: false }
+              - { name: beskrivelse, label: Beskrivelse, widget: text, required: false }
+              - { name: lyd, label: "Direkte lydfil (mp3-lenke fra podkasttjenesten)", widget: string, required: false }
+              - { name: spotify, label: Spotify-lenke, widget: string, required: false }
+              - { name: youtube, label: YouTube-lenke, widget: string, required: false }
+
+      - name: site
+        label: Forside og innstillinger
+        file: content/site.json
+        fields:
+          - { name: podkastLansert, label: "Podkasten er lansert (viser Podkast-meny, Lytt nå-knapp og episoder)", widget: boolean, default: false }
+          - name: nesteKamp
+            label: Neste kamp
+            widget: object
+            fields:
+              - { name: kamp, label: "Kamp (f.eks. Bodø/Glimt – Molde)", widget: string, required: false }
+              - { name: tidspunkt, label: "Dato og tid", widget: string, required: false }
+              - { name: arena, label: Arena, widget: string, required: false }
+              - { name: turnering, label: Turnering, widget: string, required: false }
+          - { name: omOssKort, label: "Om oss – kort tekst på forsiden", widget: text }
+          - { name: omOss, label: "Om oss – lang tekst", widget: markdown, buttons: [bold, italic, link], editor_components: [] }
+          - name: programledere
+            label: Programledere
+            widget: list
+            fields:
+              - { name: navn, label: Navn, widget: string }
+              - { name: om, label: "Kort om", widget: text }
+          - name: lenker
+            label: Lenker
+            widget: object
+            fields:
+              - { name: spotify, label: Spotify, widget: string, required: false }
+              - { name: apple, label: Apple Podcasts, widget: string, required: false }
+              - { name: youtube, label: YouTube, widget: string, required: false }
+              - { name: instagram, label: Instagram, widget: string, required: false }
+              - { name: tiktok, label: TikTok, widget: string, required: false }

@@ -1,0 +1,70 @@
+{
+  "saker": [
+    {
+      "tittel": "[Plassholder: Velkommen til Mellomrommet]",
+      "slug": "velkommen",
+      "kategori": "Nyhet",
+      "dato": "2026-11-25T12:00:00+01:00",
+      "ingress": "[Kort velkomsttekst – hvem vi er og hva siden handler om.]",
+      "bilde": "/images/gjengen.jpg",
+      "brodtekst": "[Skriv velkomstsaken her.]",
+      "kilde": "",
+      "kildenavn": ""
+    },
+    {
+      "tittel": "[Plassholder: Kampreaksjon etter siste kamp]",
+      "slug": "plassholder-kampreaksjon",
+      "kategori": "Kampreaksjon",
+      "dato": "2026-11-24T21:00:00+01:00",
+      "ingress": "[Kort ingress om kampen.]",
+      "bilde": "",
+      "brodtekst": "[Brødtekst kommer her.]",
+      "kilde": "",
+      "kildenavn": ""
+    },
+    {
+      "tittel": "[Plassholder: Analyse av midtbanen]",
+      "slug": "plassholder-analyse",
+      "kategori": "Analyse",
+      "dato": "2026-11-23T18:00:00+01:00",
+      "ingress": "[Kort ingress.]",
+      "bilde": "",
+      "brodtekst": "[Brødtekst kommer her.]",
+      "kilde": "",
+      "kildenavn": ""
+    },
+    {
+      "tittel": "[Plassholder: Overgangsvinduet så langt]",
+      "slug": "plassholder-overganger",
+      "kategori": "Overganger",
+      "dato": "2026-11-22T15:00:00+01:00",
+      "ingress": "[Kort ingress.]",
+      "bilde": "",
+      "brodtekst": "[Brødtekst kommer her.]",
+      "kilde": "",
+      "kildenavn": ""
+    },
+    {
+      "tittel": "[Plassholder: Kommentar fra en av oss]",
+      "slug": "plassholder-kommentar",
+      "kategori": "Kommentar",
+      "dato": "2026-11-21T10:00:00+01:00",
+      "ingress": "[Kort ingress.]",
+      "bilde": "",
+      "brodtekst": "[Brødtekst kommer her.]",
+      "kilde": "",
+      "kildenavn": ""
+    },
+    {
+      "tittel": "[Plassholder: Tilbakeblikk – en kamp vi aldri glemmer]",
+      "slug": "plassholder-historie",
+      "kategori": "Historie",
+      "dato": "2026-11-20T10:00:00+01:00",
+      "ingress": "[Kort ingress.]",
+      "bilde": "",
+      "brodtekst": "[Brødtekst kommer her.]",
+      "kilde": "",
+      "kildenavn": ""
+    }
+  ]
+}
