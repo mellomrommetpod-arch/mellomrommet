@@ -61,6 +61,7 @@ collections:
                     label: "Kort denne uka – spiller, trener, dommer, ekspert eller en hendelse"
                     label_singular: kort
                     widget: list
+                    required: false
                     summary: "{{fields.farge}} – {{fields.hvem}}"
                     fields:
                       - { name: farge, label: Kort, widget: select, options: [{ label: "Rødt kort (kjeft)", value: rodt }, { label: "Gult kort (ris)", value: gult }, { label: "Grønt kort (fair play / ros)", value: gront }, { label: "Softis (utmerket seg positivt)", value: softis }] }
