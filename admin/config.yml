@@ -158,6 +158,7 @@ collections:
               - { name: tidspunkt, label: "Dato og tid", widget: string, required: false }
               - { name: arena, label: Arena, widget: string, required: false }
               - { name: turnering, label: Turnering, widget: string, required: false }
+          - { name: kommentarMerknad, label: "Merknad over Kommentar-saker (etter «Dette er ikke et debattinnlegg.»)", widget: text, required: false }
           - { name: omOssKort, label: "Om oss – kort tekst på forsiden", widget: text }
           - { name: omOss, label: "Om oss – lang tekst", widget: markdown, buttons: [bold, italic, link], editor_components: [] }
           - name: programledere
