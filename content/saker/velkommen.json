@@ -1,11 +1,11 @@
 {
-  "bilde": "/images/gjengen.jpg",
-  "kategori": "Nyhet",
+  "tittel": "Velkommen til Mellomrommet",
   "slug": "velkommen",
-  "kilde": "",
-  "ingress": "Mellomrommet er et nytt, uavhengig sted for oss som følger laget i gult. Her får du nyheter, kampreaksjoner og meninger – fra supportere, for supportere.",
-  "brodtekst": "",
+  "kategori": "Nyhet",
   "dato": "2026-11-25T18:30:00.000+01:00",
-  "kildenavn": "",
-  "tittel": "Velkommen til Mellomrommet "
+  "ingress": "Mellomrommet er et nytt, uavhengig sted for oss som følger laget i gult. Her får du nyheter, kampreaksjoner og meninger – fra supportere, for supportere.",
+  "bilde": "/images/gjengen.jpg",
+  "brodtekst": "",
+  "kilde": "",
+  "kildenavn": ""
 }
