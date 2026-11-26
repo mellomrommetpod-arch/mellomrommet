@@ -8,117 +8,123 @@ backend:
     update: "Oppdatert {{slug}} via admin"
 
 locale: nb_no
+# Utkast: lagre uten å publisere. Status Utkast → Til gjennomlesing → Klar, så Publiser.
+publish_mode: editorial_workflow
 media_folder: images/opplastet
-public_folder: /images/opplastet
+# Bilder vises rett fra GitHub, så opplasting krever ingen ny publisering på Netlify
+public_folder: https://raw.githubusercontent.com/mellomrommetpod-arch/mellomrommet/main/images/opplastet
 site_url: /
 display_url: /
 
 collections:
+  - name: saker
+    label: Saker
+    label_singular: sak
+    folder: content/saker
+    create: true
+    extension: json
+    format: json
+    slug: "{{fields.slug}}"
+    identifier_field: tittel
+    summary: "{{fields.dato | date('DD.MM.YYYY')}} – {{fields.tittel}}"
+    sortable_fields: [dato, tittel, kategori]
+    editor:
+      preview: false
+    fields:
+        - { name: tittel, label: Tittel, widget: string }
+        - { name: slug, label: "Kortnavn i lenken (små bokstaver, bindestrek, unikt)", widget: string, pattern: ['^[a-z0-9-]+$', 'Bare små bokstaver, tall og bindestrek'] }
+        - name: kategori
+          label: Kategori
+          widget: select
+          options: [Mellomrommet mener, Kampreaksjon, Analyse, Overganger, Kommentar, Historie, Nyhet]
+        - { name: dato, label: Publisert, widget: datetime }
+        - { name: ingress, label: Ingress, widget: text, required: false }
+        - { name: bilde, label: Bilde, widget: image, required: false }
+        - { name: brodtekst, label: Brødtekst, widget: markdown, buttons: [bold, italic, link, heading-two, bulleted-list], editor_components: [], required: false }
+        - name: segmenter
+          label: "Segmenter (brukes i Mellomrommet mener)"
+          label_singular: segment
+          widget: list
+          required: false
+          collapsed: false
+          summary: "{{fields.navn}}"
+          fields:
+            - { name: navn, label: "Segmentnavn (f.eks. Kampen, Dommerhjørnet, Ukas glimt, Uenige om)", widget: string }
+            - { name: tekst, label: Tekst, widget: markdown, buttons: [bold, italic, link, bulleted-list], editor_components: [] }
+        - name: ukasKort
+          label: "Ukas kort! (ris, ros og kjeft – husk balansen)"
+          widget: object
+          required: false
+          collapsed: true
+          fields:
+            - { name: bilde, label: "Eget bilde (tomt = standardbildet)", widget: image, required: false }
+            - name: kort
+              label: "Kort denne uka – spiller, trener, dommer, ekspert eller en hendelse"
+              label_singular: kort
+              widget: list
+              required: false
+              summary: "{{fields.farge}} – {{fields.hvem}}"
+              fields:
+                - { name: farge, label: Kort, widget: select, options: [{ label: "Rødt kort (kjeft)", value: rodt }, { label: "Gult kort (ris)", value: gult }, { label: "Grønt kort (fair play / ros)", value: gront }, { label: "Softis (utmerket seg positivt)", value: softis }] }
+                - { name: hvem, label: "Hvem eller hva (person eller hendelse)", widget: string }
+                - { name: hvorfor, label: Hvorfor, widget: text, required: false }
+        - name: aaretsSpiller
+          label: "Poeng til Årets spiller (denne runden: 3, 2 og 1 poeng)"
+          label_singular: spiller
+          widget: list
+          required: false
+          max: 3
+          summary: "{{fields.poeng}} p – {{fields.spiller}}"
+          fields:
+            - name: spiller
+              label: Spiller
+              widget: relation
+              collection: innhold
+              file: site
+              value_field: "spillerstall.*.navn"
+              search_fields: ["spillerstall.*.navn"]
+              display_fields: ["spillerstall.*.navn"]
+              options_length: 60
+            - { name: poeng, label: Poeng, widget: select, options: [{ label: "3 poeng", value: 3 }, { label: "2 poeng", value: 2 }, { label: "1 poeng", value: 1 }] }
+        - name: analyse
+          label: "Analyse (humor) – brukes når kategorien er Analyse"
+          widget: object
+          required: false
+          collapsed: true
+          fields:
+            - { name: kampdato, label: "Avspark (dato og klokkeslett)", widget: datetime, required: false }
+            - { name: arena, label: "Arena (vær, sol og måne hentes for dette stedet)", widget: select, required: false, options: ["Aspmyra Stadion (Bodø)", "SR-Bank Arena (Stavanger)", "Brann Stadion (Bergen)", "Lerkendal (Trondheim)", "Aker Stadion (Molde)", "Romssa Arena (Tromsø)", "Intility Arena (Oslo)", "Åråsen Stadion (Lillestrøm)", "Sarpsborg Stadion (Sarpsborg)", "KFUM Arena (Oslo)", "Briskeby (Hamar)", "Fredrikstad Stadion (Fredrikstad)", "Release Arena (Sandefjord)", "Kristiansund Stadion (Kristiansund)", "Color Line Stadion (Ålesund)", "Sparebanken Sør Arena (Kristiansand)"] }
+            - { name: annetSted, label: "Annet sted – bortekamp ute eller arena som ikke står i lista (skriv by, f.eks. Manchester). Overstyrer arena.", widget: string, required: false }
+            - name: faktorer
+              label: Skyldfordeling
+              label_singular: faktor
+              widget: list
+              required: false
+              summary: "{{fields.andel}} – {{fields.faktor}}"
+              fields:
+                - { name: faktor, label: "Faktor (f.eks. Minkende måne)", widget: string }
+                - { name: andel, label: "Andel av skylda (tall, regnes om til prosent)", widget: number, value_type: int, min: 1, default: 10 }
+                - { name: forklaring, label: Forklaring, widget: text, required: false }
+            - { name: konklusjon, label: Konklusjon, widget: text, required: false }
+        - name: opptak
+          label: "Opptak – SKJULT til podkasten lanseres (fyll gjerne ut allerede nå)"
+          widget: object
+          required: false
+          collapsed: true
+          fields:
+            - { name: episode, label: "Episodenummer", widget: string, required: false }
+            - { name: lyd, label: "Lydfil (lenke til mp3)", widget: string, required: false }
+            - { name: spotify, label: "Spotify-lenke til episoden", widget: string, required: false }
+            - { name: apple, label: "Apple Podcasts-lenke", widget: string, required: false }
+            - { name: youtube, label: "YouTube-lenke", widget: string, required: false }
+        - { name: kilde, label: "Kilde-lenke (når saken bygger på en annen sak)", widget: string, required: false }
+        - { name: kildenavn, label: "Navn på kilden (f.eks. glimt.no)", widget: string, required: false }
+
   - name: innhold
-    label: Innhold
+    label: Innstillinger og episoder
     editor:
       preview: false
     files:
-      - name: saker
-        label: Saker
-        file: content/saker.json
-        fields:
-          - name: saker
-            label: Saker
-            label_singular: sak
-            widget: list
-            summary: "{{fields.dato | date('DD.MM.YYYY')}} – {{fields.tittel}}"
-            add_to_top: true
-            fields:
-              - { name: tittel, label: Tittel, widget: string }
-              - { name: slug, label: "Kortnavn i lenken (små bokstaver, bindestrek, unikt)", widget: string, pattern: ['^[a-z0-9-]+$', 'Bare små bokstaver, tall og bindestrek'] }
-              - name: kategori
-                label: Kategori
-                widget: select
-                options: [Mellomrommet mener, Kampreaksjon, Analyse, Overganger, Kommentar, Historie, Nyhet]
-              - { name: dato, label: Publisert, widget: datetime }
-              - { name: ingress, label: Ingress, widget: text, required: false }
-              - { name: bilde, label: Bilde, widget: image, required: false }
-              - { name: brodtekst, label: Brødtekst, widget: markdown, buttons: [bold, italic, link, heading-two, bulleted-list], editor_components: [], required: false }
-              - name: segmenter
-                label: "Segmenter (brukes i Mellomrommet mener)"
-                label_singular: segment
-                widget: list
-                required: false
-                collapsed: false
-                summary: "{{fields.navn}}"
-                fields:
-                  - { name: navn, label: "Segmentnavn (f.eks. Kampen, Dommerhjørnet, Ukas glimt, Uenige om)", widget: string }
-                  - { name: tekst, label: Tekst, widget: markdown, buttons: [bold, italic, link, bulleted-list], editor_components: [] }
-              - name: ukasKort
-                label: "Ukas kort! (ris, ros og kjeft – husk balansen)"
-                widget: object
-                required: false
-                collapsed: true
-                fields:
-                  - { name: bilde, label: "Eget bilde (tomt = standardbildet)", widget: image, required: false }
-                  - name: kort
-                    label: "Kort denne uka – spiller, trener, dommer, ekspert eller en hendelse"
-                    label_singular: kort
-                    widget: list
-                    required: false
-                    summary: "{{fields.farge}} – {{fields.hvem}}"
-                    fields:
-                      - { name: farge, label: Kort, widget: select, options: [{ label: "Rødt kort (kjeft)", value: rodt }, { label: "Gult kort (ris)", value: gult }, { label: "Grønt kort (fair play / ros)", value: gront }, { label: "Softis (utmerket seg positivt)", value: softis }] }
-                      - { name: hvem, label: "Hvem eller hva (person eller hendelse)", widget: string }
-                      - { name: hvorfor, label: Hvorfor, widget: text, required: false }
-              - name: aaretsSpiller
-                label: "Poeng til Årets spiller (denne runden: 3, 2 og 1 poeng)"
-                label_singular: spiller
-                widget: list
-                required: false
-                max: 3
-                summary: "{{fields.poeng}} p – {{fields.spiller}}"
-                fields:
-                  - name: spiller
-                    label: Spiller
-                    widget: relation
-                    collection: innhold
-                    file: site
-                    value_field: "spillerstall.*.navn"
-                    search_fields: ["spillerstall.*.navn"]
-                    display_fields: ["spillerstall.*.navn"]
-                    options_length: 60
-                  - { name: poeng, label: Poeng, widget: select, options: [{ label: "3 poeng", value: 3 }, { label: "2 poeng", value: 2 }, { label: "1 poeng", value: 1 }] }
-              - name: analyse
-                label: "Analyse (humor) – brukes når kategorien er Analyse"
-                widget: object
-                required: false
-                collapsed: true
-                fields:
-                  - { name: kampdato, label: "Avspark (dato og klokkeslett)", widget: datetime, required: false }
-                  - { name: arena, label: "Arena (vær, sol og måne hentes for dette stedet)", widget: select, required: false, options: ["Aspmyra Stadion (Bodø)", "SR-Bank Arena (Stavanger)", "Brann Stadion (Bergen)", "Lerkendal (Trondheim)", "Aker Stadion (Molde)", "Romssa Arena (Tromsø)", "Intility Arena (Oslo)", "Åråsen Stadion (Lillestrøm)", "Sarpsborg Stadion (Sarpsborg)", "KFUM Arena (Oslo)", "Briskeby (Hamar)", "Fredrikstad Stadion (Fredrikstad)", "Release Arena (Sandefjord)", "Kristiansund Stadion (Kristiansund)", "Color Line Stadion (Ålesund)", "Sparebanken Sør Arena (Kristiansand)"] }
-                  - { name: annetSted, label: "Annet sted – bortekamp ute eller arena som ikke står i lista (skriv by, f.eks. Manchester). Overstyrer arena.", widget: string, required: false }
-                  - name: faktorer
-                    label: Skyldfordeling
-                    label_singular: faktor
-                    widget: list
-                    required: false
-                    summary: "{{fields.andel}} – {{fields.faktor}}"
-                    fields:
-                      - { name: faktor, label: "Faktor (f.eks. Minkende måne)", widget: string }
-                      - { name: andel, label: "Andel av skylda (tall, regnes om til prosent)", widget: number, value_type: int, min: 1, default: 10 }
-                      - { name: forklaring, label: Forklaring, widget: text, required: false }
-                  - { name: konklusjon, label: Konklusjon, widget: text, required: false }
-              - name: opptak
-                label: "Opptak – SKJULT til podkasten lanseres (fyll gjerne ut allerede nå)"
-                widget: object
-                required: false
-                collapsed: true
-                fields:
-                  - { name: episode, label: "Episodenummer", widget: string, required: false }
-                  - { name: lyd, label: "Lydfil (lenke til mp3)", widget: string, required: false }
-                  - { name: spotify, label: "Spotify-lenke til episoden", widget: string, required: false }
-                  - { name: apple, label: "Apple Podcasts-lenke", widget: string, required: false }
-                  - { name: youtube, label: "YouTube-lenke", widget: string, required: false }
-              - { name: kilde, label: "Kilde-lenke (når saken bygger på en annen sak)", widget: string, required: false }
-              - { name: kildenavn, label: "Navn på kilden (f.eks. glimt.no)", widget: string, required: false }
-
       - name: episoder
         label: Episoder
         file: content/episoder.json
