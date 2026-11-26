@@ -95,7 +95,7 @@
     const pod = !!(site && site.podkastLansert);
     const nav = [
       ['/nyheter.html', 'Nyheter', 'nyheter'],
-      (saker || []).some((x) => x.kategori === SPALTE) && [SPALTE_URL, SPALTE, 'mener'],
+      [SPALTE_URL, SPALTE, 'mener'],
       pod && ['/podkast.html', 'Podkast', 'podkast'],
       ['/om-oss.html', 'Om oss', 'om-oss'],
       ['/#tips', 'Tips oss', 'tips'],
@@ -445,6 +445,52 @@
       '<p class="fotnote">Panelet deler ut 3, 2 og 1 poeng etter hver runde.</p></div>';
   }
 
+  // ---------- Mellomrommet mener: de faste segmentene ----------
+  const SEGMENTER = [
+    { navn: 'Kampen', tekst: 'Hva avgjorde kampen, hvem var best – og hvem skuffet? Hver av oss tar med seg ett øyeblikk.' },
+    { navn: 'Dommerhjørnet', tekst: 'Mads-Birger, vårt dommeralibi, tar ukas mest omdiskuterte avgjørelse og gir fasiten etter regelboka.' },
+    { navn: 'Uenige om', tekst: 'Børge legger fram en påstand. De to andre velger side. Ingen trenger å bli enige.' },
+    { navn: 'Analysen', tekst: 'Garantert uten taktikk. Vi finner de virkelige årsakene – målt mot ekte vær, sol og måne.' },
+    { navn: 'Ukas kort', tekst: 'Rødt, gult eller grønt – og en og annen softis. Ris, ros og kjeft for det som skjedde i uka.' },
+    { navn: 'Årets spiller', tekst: 'Panelet deler ut 3, 2 og 1 poeng etter hver runde. Stillingen oppdateres løpende.' },
+  ];
+  const utdrag = (md, n) => { const t = String(md || '').replace(/[*#_>\[\]]/g, '').replace(/\(https?:[^)]*\)/g, '').replace(/\s+/g, ' ').trim(); return t.length > n ? t.slice(0, n).replace(/\s\S*$/, '') + ' …' : t; };
+  function spalteside(m, site, saker) {
+    const mener = saker.filter((s) => s.kategori === SPALTE);
+    const sisteMed = (fn) => mener.find(fn);
+    const innhold = (navn) => {
+      if (navn === 'Analysen') {
+        const a = saker.find((s) => s.kategori === 'Analyse');
+        return a ? '<a class="seg-siste" href="' + sakUrl(a) + '"><b>' + esc(a.tittel) + '</b>' + (a.ingress ? '<span>' + esc(utdrag(a.ingress, 140)) + '</span>' : '') + '</a>' : '';
+      }
+      if (navn === 'Ukas kort') {
+        const s = sisteMed((x) => x.ukasKort && (x.ukasKort.kort || []).length);
+        if (!s) return '';
+        const k = s.ukasKort.kort.filter((x) => KORTTYPER[x.farge]).slice(0, 4);
+        return '<a class="seg-siste" href="' + sakUrl(s) + '#kort">' + k.map((x) => '<span class="seg-kort ' + KORTTYPER[x.farge][1] + '">' + KORTTYPER[x.farge][2] + esc(KORTTYPER[x.farge][0]) + ': ' + esc(x.hvem) + '</span>').join('') + '</a>';
+      }
+      if (navn === 'Årets spiller') {
+        const r = aaretsStilling(saker, new Date().getFullYear()).slice(0, 3);
+        return r.length ? '<ol class="seg-topp">' + r.map((x) => '<li>' + esc(x.navn) + ' <b>' + x.poeng + ' p</b></li>').join('') + '</ol><a class="mer" href="#stilling">Hele stillingen →</a>' : '';
+      }
+      const s = sisteMed((x) => (x.segmenter || []).some((g) => g && g.navn && g.navn.toLowerCase() === navn.toLowerCase() && g.tekst));
+      if (!s) return '';
+      const g = s.segmenter.find((x) => x.navn.toLowerCase() === navn.toLowerCase());
+      return '<a class="seg-siste" href="' + sakUrl(s) + '"><b>' + esc(s.tittel) + '</b><span>' + esc(utdrag(g.tekst, 160)) + '</span></a>';
+    };
+    m.innerHTML = '<section><h1 class="seksjonstittel" style="font-size:40px">' + SPALTE + '</h1>' +
+      '<p class="spalteingress">Børge, Mads-Birger og Hans Fredrik tar praten om Glimt – kampene, dommerne og alt imellom. Hver runde går vi gjennom de samme seks postene.' +
+        (window.__pod ? ' <b style="color:var(--gul)">Og ja: Alt du har lest her er podkast. Hver sak har sin episode – trykk deg inn og hør hele praten. 🎧</b>' : '') + '</p>' +
+      '<div class="segmentgrid">' + SEGMENTER.map((g, i) => {
+        const inn = innhold(g.navn);
+        return '<article class="boks segmentboks reveal"><span class="kat">' + String(i + 1).padStart(2, '0') + '</span><h2>' + esc(g.navn) + '</h2><p>' + esc(g.tekst) + '</p>' +
+          (inn || '<p class="seg-tom">Første runde kommer snart.</p>') + '</article>';
+      }).join('') + '</div></section>' +
+      (mener.length ? '<section><h2 class="seksjonstittel">Alle samtaler</h2><div class="kort-grid">' + mener.map(kort).join('') + '</div></section>' : '') +
+      '<div id="stilling">' + stillingHtml(saker) + '</div>';
+    animer();
+  }
+
   // ---------- Sider ----------
   const sider = {
     async forside(site, saker, episoder) {
@@ -462,17 +508,20 @@
                 (hoved.ingress ? '<p>' + esc(hoved.ingress) + '</p>' : '') +
               '</a>'
             : '<p class="tom-melding">Ingen saker ennå.</p>') +
-          '<aside class="siste" aria-label="Siste saker">' +
-            (resten.length ? '<h2>Siste saker</h2>' : '') +
-            resten.slice(0, 4).map((s) => '<a href="' + sakUrl(s) + '"><span class="meta">' + esc(s.kategori) + ' · ' + tidSiden(s.dato) + '</span><span>' + esc(s.tittel) + '</span></a>').join('') +
+          '<aside class="sidekolonne" aria-label="Kamp og tabell">' +
             '<div class="boks nestekamp" id="nestekamp" aria-live="polite"' + (nk.kamp ? '' : ' hidden') + '>' + nesteKampHtml(nk.kamp ? { kamp: nk.kamp, info: [nk.tidspunkt, nk.arena, nk.turnering].filter(Boolean).join(' · ') } : null) + '</div>' +
             '<div class="boks stilling tabell" id="tabell" aria-live="polite" hidden></div>' +
-            stillingHtml(saker, 5) +
           '</aside>' +
         '</section>' +
+        (resten.length
+          ? '<section class="boks siste3" aria-label="Siste saker"><h2 class="seksjonstittel">Siste saker <a href="/nyheter.html">Alle saker →</a></h2><div class="siste3-grid">' +
+            resten.slice(0, 3).map((s) => '<a class="siste3-sak" href="' + sakUrl(s) + '"><span class="kat">' + katMerke(s.kategori) + ' · <span class="meta" style="color:inherit">' + tidSiden(s.dato) + '</span></span><h3>' + esc(s.tittel) + '</h3>' + (s.ingress ? '<p>' + esc(s.ingress) + '</p>' : '') + '</a>').join('') +
+            '</div></section>'
+          : '') +
+        stillingHtml(saker, 5) +
         (site.podkastLansert ? episodeBoks(episoder[0], lenker) : '') +
-        (resten.length > 4
-          ? '<section aria-label="Flere saker"><h2 class="seksjonstittel">Flere saker <a href="/nyheter.html">Alle saker →</a></h2><div class="kort-grid">' + resten.slice(4, 12).map(kort).join('') + '</div></section>'
+        (resten.length > 3
+          ? '<section aria-label="Flere saker"><h2 class="seksjonstittel">Flere saker</h2><div class="kort-grid">' + resten.slice(3, 11).map(kort).join('') + '</div></section>'
           : '') +
         '<section class="to reveal" aria-label="Om oss">' +
           '<img src="/images/gjengen.jpg" alt="Børge, Mads-Birger og Hans Fredrik – gjengen bak Mellomrommet">' +
@@ -494,6 +543,7 @@
       const ingressAnalyse = '<p class="spalteingress">Garantert uten taktikk. Vi finner de virkelige årsakene: været, månen og stjernetegnet til linjedommeren.</p>';
       const ingressSpalte = '<p class="spalteingress">Børge, Mads-Birger og Hans Fredrik tar praten om Glimt – kampene, dommerne og alt imellom.' +
         (window.__pod ? ' <b style="color:var(--gul)">Og ja: Alt du har lest her er podkast. Hver sak har sin episode – trykk deg inn og hør hele praten. 🎧</b>' : '') + '</p>';
+      if (valgt === SPALTE) { spalteside(m, site, saker); return; }
       m.innerHTML = '<section><h1 class="seksjonstittel" style="font-size:40px">' + (valgt === SPALTE ? SPALTE : 'Nyheter') + '</h1>' +
         (valgt === 'Analyse' ? ingressAnalyse : '') +
         (valgt === SPALTE ? ingressSpalte + '<div id="stilling">' + stillingHtml(saker) + '</div>' : '') +
