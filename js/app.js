@@ -13,14 +13,36 @@
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const $ = (sel, el = document) => el.querySelector(sel);
 
+  // Innholdet hentes rett fra GitHub, så endringer i admin vises uten ny publisering på Netlify.
+  const REPO = 'mellomrommetpod-arch/mellomrommet';
+  const RAW = 'https://raw.githubusercontent.com/' + REPO + '/main/';
+  async function json(url) {
+    const r = await fetch(url, { cache: 'no-store' });
+    if (!r.ok) throw new Error(r.status + ' ' + url);
+    return r.json();
+  }
   async function hent(fil) {
+    try { return await json(RAW + 'content/' + fil + '?v=' + Date.now()); }
+    catch (e) {
+      try { return await json('/content/' + fil + '?v=' + Date.now()); }
+      catch (e2) { console.warn('Kunne ikke hente', fil, e2); return null; }
+    }
+  }
+  // Én fil per sak i content/saker/. Lista hentes fra GitHub og huskes i to minutter.
+  async function hentSaker() {
+    const NOKKEL = 'mm-saker-v1';
+    let lagret = null;
+    try { lagret = JSON.parse(localStorage.getItem(NOKKEL) || 'null'); } catch (e) { /* privat modus */ }
+    if (lagret && Date.now() - lagret.t < 120000) return lagret.saker;
     try {
-      const r = await fetch('/content/' + fil + '?v=' + Date.now());
-      if (!r.ok) throw new Error(r.status);
-      return await r.json();
+      const liste = await json('https://api.github.com/repos/' + REPO + '/contents/content/saker?ref=main');
+      const filer = liste.filter((f) => f.type === 'file' && /\.json$/.test(f.name));
+      const saker = (await Promise.all(filer.map((f) => json(RAW + f.path + '?v=' + f.sha).catch(() => null)))).filter(Boolean);
+      try { localStorage.setItem(NOKKEL, JSON.stringify({ t: Date.now(), saker })); } catch (e) { /* fullt eller privat */ }
+      return saker;
     } catch (e) {
-      console.warn('Kunne ikke hente', fil, e);
-      return null;
+      console.warn('Fikk ikke hentet sakslista – viser sist lagrede', e);
+      return lagret ? lagret.saker : [];
     }
   }
 
@@ -560,11 +582,11 @@
 
   // ---------- Start ----------
   (async function start() {
-    const [site, art, eps] = await Promise.all([hent('site.json'), hent('saker.json'), Promise.resolve(null)]);
+    const [site, alleSaker, eps] = await Promise.all([hent('site.json'), hentSaker(), Promise.resolve(null)]);
     const s = site || {};
     const eps2 = s.podkastLansert ? await hent('episoder.json') : null;
     window.__pod = !!s.podkastLansert;
-    const saker = sorterNyest(art && art.saker);
+    const saker = sorterNyest(alleSaker);
     const episoder = sorterNyest((eps2 || eps) && (eps2 || eps).episoder);
     rammeverk(s);
     const fn = sider[SIDE.replace('-', '')];
