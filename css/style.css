@@ -138,7 +138,7 @@ main > .wrap{display:flex;flex-direction:column;gap:64px}
 /* Programledere */
 .personer{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
 .person h3{font-size:24px;margin-bottom:6px}
-.person p{margin:0;color:var(--tekst2)}
+.person p{margin:0 0 10px;color:var(--tekst2)}
 
 /* Footer */
 .footer{border-top:1px solid var(--line);color:var(--dempet);font-size:14px}
@@ -157,3 +157,45 @@ main > .wrap{display:flex;flex-direction:column;gap:64px}
 @media (max-width:860px){.lead,.to{grid-template-columns:1fr}}
 .skjult{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .tom-melding{color:var(--dempet)}
+
+/* Mellomrommet mener */
+.spaltemerke{display:inline-block;background:var(--gul);color:#0A0A0A;padding:2px 8px;border-radius:3px;letter-spacing:.5px}
+.spalteingress{color:var(--tekst2);font-size:18px;margin:-8px 0 24px;max-width:640px}
+.segment{margin-top:36px;padding-top:24px;border-top:1px solid var(--line)}
+.segment h2{font-family:Oswald,sans-serif;text-transform:uppercase;color:var(--gul);font-size:24px;margin:0 0 12px}
+.ks-ingress{color:var(--tekst2);margin:0 0 16px}
+.ks-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ks-kort{background:var(--surface);border:1px solid var(--line2);border-left:8px solid;border-radius:6px;padding:16px}
+.ks-kort.gul{border-left-color:#F2C21B}.ks-kort.rod{border-left-color:#E03A3A}.ks-kort.gronn{border-left-color:#2FB45A}.ks-kort.softis{border-left-color:#F6EBD9;background:linear-gradient(135deg,var(--surface),#2a2418)}
+.ks-merke{display:block;font-family:Oswald,sans-serif;text-transform:uppercase;font-size:14px;letter-spacing:1px;color:var(--tekst2);margin-bottom:6px}
+.ks-kort strong{display:block;font-size:20px;margin-bottom:4px}
+.ks-kort p{margin:0;color:var(--tekst2);font-size:15px}
+.ukas-kort .hovedbilde{width:100%;max-height:420px;object-fit:cover;object-position:top;border-radius:6px;margin-bottom:12px}
+.stilling{margin-top:16px}
+.stilling table{width:100%;border-collapse:collapse;margin-top:8px;font-size:15px}
+.stilling th{text-align:left;color:var(--tekst2);font-weight:600;font-size:13px;text-transform:uppercase;padding:6px 4px;border-bottom:1px solid var(--line2)}
+.stilling td{padding:8px 4px;border-bottom:1px solid var(--line)}
+.stilling .tall{text-align:right;font-variant-numeric:tabular-nums}
+.stilling tr.leder td{color:var(--gul);font-weight:700}
+.stilling .fotnote{color:var(--tekst2);font-size:13px;margin:10px 0 0}
+.mer{display:inline-block;margin-top:10px;color:var(--gul);font-weight:600}
+#stilling{max-width:520px;margin-bottom:28px}
+.poengliste{list-style:none;padding:0;margin:0 0 8px}
+.poengliste li{padding:6px 0;border-bottom:1px solid var(--line)}
+.poengliste b{display:inline-block;min-width:48px;color:var(--gul)}
+.analyseboks h3{font-family:Oswald,sans-serif;text-transform:uppercase;font-size:18px;margin:20px 0 10px}
+.maane{margin:0 0 8px;font-size:17px}
+.skyld{display:flex;flex-direction:column;gap:14px}
+.skyld-topp{display:flex;justify-content:space-between;gap:12px;margin-bottom:4px}
+.skyld-topp b{color:var(--gul);font-variant-numeric:tabular-nums}
+.skyld-bar{height:10px;background:var(--surface);border:1px solid var(--line2);border-radius:99px;overflow:hidden}
+.skyld-bar i{display:block;height:100%;background:var(--gul)}
+.skyld-rad p{margin:6px 0 0;color:var(--tekst2);font-size:15px}
+.konklusjon{margin-top:20px;background:var(--gul);color:#0A0A0A;border-radius:6px;padding:16px 18px}
+.konklusjon .kat{color:#0A0A0A}
+.konklusjon p{margin:4px 0 0;font-size:18px;font-weight:600}
+.kampfakta{background:var(--surface);border:1px solid var(--line2);border-radius:6px;padding:16px 18px;margin-bottom:8px}
+.kampfakta .kat{display:block;margin-bottom:8px}
+.ukas-kort .hovedbilde{display:block;width:100%;max-width:520px;max-height:none;object-fit:contain;margin:0 auto 14px}
+.boks.lytt{margin:20px 0;border-color:var(--gul)}
+.boks.lytt p{color:var(--tekst2);margin:6px 0 12px}
