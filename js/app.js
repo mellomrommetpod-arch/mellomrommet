@@ -80,6 +80,8 @@
   }
 
   const SPALTE = 'Mellomrommet mener';
+  // Står over alle saker i kategorien Kommentar. Kan endres i admin (Innstillinger).
+  const MERKNAD = 'Innlegget gir uttrykk for skribentens holdninger, som er grundig gjennomtenkt i pausen. Skribenten er nesten alltid på ball. Dette kan være et av unntakene.';
   const SPALTE_URL = '/nyheter.html?k=' + encodeURIComponent(SPALTE);
   const katMerke = (k) => k === SPALTE ? '<span class="spaltemerke">' + esc(k) + '</span>' : esc(k);
 
@@ -88,12 +90,12 @@
   const bilde = (src, alt) => src ? '<img src="' + esc(src) + '" alt="' + esc(alt || '') + '" loading="lazy">' : TOMT_BILDE;
 
   // ---------- Header, ticker og footer ----------
-  function rammeverk(site) {
+  function rammeverk(site, saker) {
     const lenker = (site && site.lenker) || {};
     const pod = !!(site && site.podkastLansert);
     const nav = [
       ['/nyheter.html', 'Nyheter', 'nyheter'],
-      [SPALTE_URL, SPALTE, 'mener'],
+      (saker || []).some((x) => x.kategori === SPALTE) && [SPALTE_URL, SPALTE, 'mener'],
       pod && ['/podkast.html', 'Podkast', 'podkast'],
       ['/om-oss.html', 'Om oss', 'om-oss'],
       ['/#tips', 'Tips oss', 'tips'],
@@ -461,7 +463,7 @@
               '</a>'
             : '<p class="tom-melding">Ingen saker ennå.</p>') +
           '<aside class="siste" aria-label="Siste saker">' +
-            '<h2>Siste saker</h2>' +
+            (resten.length ? '<h2>Siste saker</h2>' : '') +
             resten.slice(0, 4).map((s) => '<a href="' + sakUrl(s) + '"><span class="meta">' + esc(s.kategori) + ' · ' + tidSiden(s.dato) + '</span><span>' + esc(s.tittel) + '</span></a>').join('') +
             '<div class="boks nestekamp" id="nestekamp" aria-live="polite"' + (nk.kamp ? '' : ' hidden') + '>' + nesteKampHtml(nk.kamp ? { kamp: nk.kamp, info: [nk.tidspunkt, nk.arena, nk.turnering].filter(Boolean).join(' · ') } : null) + '</div>' +
             '<div class="boks stilling tabell" id="tabell" aria-live="polite" hidden></div>' +
@@ -495,7 +497,7 @@
       m.innerHTML = '<section><h1 class="seksjonstittel" style="font-size:40px">' + (valgt === SPALTE ? SPALTE : 'Nyheter') + '</h1>' +
         (valgt === 'Analyse' ? ingressAnalyse : '') +
         (valgt === SPALTE ? ingressSpalte + '<div id="stilling">' + stillingHtml(saker) + '</div>' : '') +
-        '<div class="filter" role="group" aria-label="Filtrer på kategori">' +
+        '<div class="filter" role="group" aria-label="Filtrer på kategori"' + (kategorier.length <= 2 ? ' hidden' : '') + '>' +
         kategorier.map((k) => '<button type="button" aria-pressed="' + (k === valgt) + '" data-k="' + esc(k) + '">' + esc(k) + '</button>').join('') +
         '</div><div class="kort-grid" id="liste"></div></section>';
       const liste = $('#liste');
@@ -521,6 +523,7 @@
       m.innerHTML = '<article class="artikkel">' +
         '<span class="kat">' + katMerke(s.kategori) + ' · <span class="meta" style="color:inherit">' + datoTekst(s.dato) + '</span></span>' +
         '<h1>' + esc(s.tittel) + '</h1>' +
+        (s.kategori === 'Kommentar' ? '<aside class="merknad" aria-label="Merknad"><b>Dette er ikke et debattinnlegg.</b> ' + esc(site.kommentarMerknad || MERKNAD) + '</aside>' : '') +
         (s.ingress ? '<p class="ingress">' + esc(s.ingress) + '</p>' : '') +
         (s.bilde ? '<img class="hovedbilde" src="' + esc(s.bilde) + '" alt="">' : '') +
         lytteBoks(s, site.lenker || {}) +
@@ -588,7 +591,7 @@
     window.__pod = !!s.podkastLansert;
     const saker = sorterNyest(alleSaker);
     const episoder = sorterNyest((eps2 || eps) && (eps2 || eps).episoder);
-    rammeverk(s);
+    rammeverk(s, saker);
     const fn = sider[SIDE.replace('-', '')];
     if (fn) await fn(s, saker, episoder);
     aktiverSpillere();
