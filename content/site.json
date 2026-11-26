@@ -28,5 +28,137 @@
     "youtube": "https://www.youtube.com/@mellomrommetpodkast",
     "instagram": "https://www.instagram.com/mellomrommetpodkast/",
     "tiktok": "https://www.tiktok.com/@mellomrommetpodkast"
-  }
+  },
+  "spillerstall": [
+    {
+      "navn": "Nikita Haikin",
+      "nummer": "",
+      "posisjon": "Keeper"
+    },
+    {
+      "navn": "Julian Faye Lund",
+      "nummer": "",
+      "posisjon": "Keeper"
+    },
+    {
+      "navn": "Isak Sjong",
+      "nummer": "",
+      "posisjon": "Keeper"
+    },
+    {
+      "navn": "Martin Lund Andersen",
+      "nummer": "",
+      "posisjon": "Keeper"
+    },
+    {
+      "navn": "Fredrik André Bjørkan",
+      "nummer": "",
+      "posisjon": "Forsvar"
+    },
+    {
+      "navn": "Odin Bjørtuft",
+      "nummer": "",
+      "posisjon": "Forsvar"
+    },
+    {
+      "navn": "Jostein Gundersen",
+      "nummer": "",
+      "posisjon": "Forsvar"
+    },
+    {
+      "navn": "Villads Nielsen",
+      "nummer": "",
+      "posisjon": "Forsvar"
+    },
+    {
+      "navn": "Fredrik Sjøvold",
+      "nummer": "",
+      "posisjon": "Forsvar"
+    },
+    {
+      "navn": "Haitam Aleesami",
+      "nummer": "",
+      "posisjon": "Forsvar"
+    },
+    {
+      "navn": "Magnus Riisnæs",
+      "nummer": "",
+      "posisjon": "Forsvar"
+    },
+    {
+      "navn": "Sondre Auklend",
+      "nummer": "",
+      "posisjon": "Midtbane"
+    },
+    {
+      "navn": "Patrick Berg",
+      "nummer": "",
+      "posisjon": "Midtbane"
+    },
+    {
+      "navn": "Ole Didrik Blomberg",
+      "nummer": "",
+      "posisjon": "Midtbane"
+    },
+    {
+      "navn": "Sondre Brunstad Fet",
+      "nummer": "",
+      "posisjon": "Midtbane"
+    },
+    {
+      "navn": "Håkon Evjen",
+      "nummer": "",
+      "posisjon": "Midtbane"
+    },
+    {
+      "navn": "Jens Petter Hauge",
+      "nummer": "",
+      "posisjon": "Midtbane"
+    },
+    {
+      "navn": "Isak Dybvik Määttä",
+      "nummer": "",
+      "posisjon": "Midtbane"
+    },
+    {
+      "navn": "Ulrik Saltnes",
+      "nummer": "",
+      "posisjon": "Midtbane"
+    },
+    {
+      "navn": "August Mikkelsen",
+      "nummer": "",
+      "posisjon": "Midtbane"
+    },
+    {
+      "navn": "Joshua Gaston Kitolano",
+      "nummer": "",
+      "posisjon": "Midtbane"
+    },
+    {
+      "navn": "Kasper Johansen Solhaug",
+      "nummer": "",
+      "posisjon": "Midtbane"
+    },
+    {
+      "navn": "Joel Mugisha",
+      "nummer": "",
+      "posisjon": "Midtbane"
+    },
+    {
+      "navn": "Assan Sanyang",
+      "nummer": "",
+      "posisjon": "Midtbane"
+    },
+    {
+      "navn": "Andreas Helmersen",
+      "nummer": "",
+      "posisjon": "Angrep"
+    },
+    {
+      "navn": "Ola Brynhildsen",
+      "nummer": "",
+      "posisjon": "Angrep"
+    }
+  ]
 }
