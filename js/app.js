@@ -3,6 +3,16 @@
 (function () {
   'use strict';
 
+  // ---------- Besøkstelling (GoatCounter, uten cookies) ----------
+  // Hver sak telles som /sak/<slug>, slik at oversikten viser én rad per artikkel.
+  if (!/^(localhost|127\.)/.test(location.hostname)) {
+    window.goatcounter = { path: function () { const s = new URLSearchParams(location.search).get('s'); return s ? '/sak/' + s : location.pathname; } };
+    const gc = document.createElement('script');
+    gc.async = true; gc.src = 'https://gc.zgo.at/count.js';
+    gc.setAttribute('data-goatcounter', 'https://mellomrommet.goatcounter.com/count');
+    document.head.appendChild(gc);
+  }
+
   const LOGO = '/images/logo.png';
   const SIDE = document.body.dataset.side || '';
   // Ved lansering byttes logoen til versjonen med «PODKASTEN»
