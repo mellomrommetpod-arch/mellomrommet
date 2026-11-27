@@ -491,6 +491,30 @@
     animer();
   }
 
+  // ---------- Gjengen tipper ----------
+  function utfall(r) { const m = String(r || '').match(/(\d+)\s*[-–:]\s*(\d+)/); return m ? [ +m[1], +m[2] ] : null; }
+  function tippingHtml(t) {
+    if (!t || !t.tips || !t.tips.length) return '';
+    const fasit = utfall(t.fasit);
+    const tegn = (a) => Math.sign(a[0] - a[1]);
+    const rader = t.tips.map((x) => {
+      const u = utfall(x.resultat);
+      let merke = '';
+      if (fasit && u) {
+        if (u[0] === fasit[0] && u[1] === fasit[1]) merke = '<span class="tip-merke blink">Blink · 3p</span>';
+        else if (tegn(u) === tegn(fasit)) merke = '<span class="tip-merke utfall">Riktig utfall · 1p</span>';
+        else merke = '<span class="tip-merke bom">Bom · 0p</span>';
+      }
+      return '<li><span class="tip-navn">' + esc(x.navn) + (x.grunn ? '<small class="tip-grunn">' + esc(x.grunn) + '</small>' : '') + '</span><span class="tip-res">' + esc(u ? u[0] + '–' + u[1] : x.resultat) + '</span>' + merke + '</li>';
+    }).join('');
+    return '<section class="boks tipping" aria-label="Gjengen tipper">' +
+      '<span class="kat">Gjengen tipper</span>' +
+      (t.kamp ? '<p class="tip-kamp">' + esc(t.kamp) + '</p>' : '') +
+      '<ul class="tip-liste">' + rader + '</ul>' +
+      '<p class="tip-fot">' + (fasit ? 'Fasit: <b>' + fasit[0] + '–' + fasit[1] + '</b>' : esc(t.kommentar || 'Fasit kommer etter kampen. Skam deles likt.')) + '</p>' +
+    '</section>';
+  }
+
   // ---------- Sider ----------
   const sider = {
     async forside(site, saker, episoder) {
@@ -510,6 +534,7 @@
             : '<p class="tom-melding">Ingen saker ennå.</p>') +
           '<aside class="sidekolonne" aria-label="Kamp og tabell">' +
             '<div class="boks nestekamp" id="nestekamp" aria-live="polite"' + (nk.kamp ? '' : ' hidden') + '>' + nesteKampHtml(nk.kamp ? { kamp: nk.kamp, info: [nk.tidspunkt, nk.arena, nk.turnering].filter(Boolean).join(' · ') } : null) + '</div>' +
+            tippingHtml(site.tipping) +
             '<div class="boks stilling tabell" id="tabell" aria-live="polite" hidden></div>' +
           '</aside>' +
         '</section>' +

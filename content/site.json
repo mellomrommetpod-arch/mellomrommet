@@ -160,5 +160,27 @@
       "nummer": "",
       "posisjon": "Angrep"
     }
-  ]
+  ],
+  "tipping": {
+    "kamp": "Bodø/Glimt – KFUM, lørdag 28. november",
+    "tips": [
+      {
+        "navn": "Børge",
+        "resultat": "4-3",
+        "grunn": "Fordi Haikin fyrer opp Havet-tribunen støtt og stadig i kulden."
+      },
+      {
+        "navn": "Mads-Birger",
+        "resultat": "4-0",
+        "grunn": "Fordi vi trenger målforskjellen!"
+      },
+      {
+        "navn": "Hans Fredrik",
+        "resultat": "3-1",
+        "grunn": "Fordi vi venter til det 91. minutt med å gå fra uavgjort."
+      }
+    ],
+    "fasit": "",
+    "kommentar": "Fasit kommer etter kampen. Skam deles likt."
+  }
 }
