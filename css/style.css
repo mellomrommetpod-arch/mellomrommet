@@ -223,3 +223,18 @@ main > .wrap{display:flex;flex-direction:column;gap:64px}
 .seg-kort.gul{border-color:#F2C21B}.seg-kort.rod{border-color:#E03A3A}.seg-kort.gronn{border-color:#2FB45A}.seg-kort.softis{border-color:#F6EBD9}
 .seg-topp{margin:auto 0 0;padding:12px 0 0 20px;border-top:1px solid var(--line2)}
 .seg-topp b{color:var(--gul)}
+
+/* Gjengen tipper */
+.tipping{margin-top:24px;display:flex;flex-direction:column;gap:10px}
+.tip-kamp{margin:0;font-family:Oswald,sans-serif;font-size:20px;font-weight:600}
+.tip-liste{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.tip-liste li{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.tip-navn{flex:1;color:var(--tekst);font-weight:600;display:flex;flex-direction:column;gap:2px}
+.tip-grunn{font-weight:400;font-style:italic;color:var(--tekst2);font-size:15px;line-height:1.35}
+.tip-res{font-family:Oswald,sans-serif;font-size:26px;font-weight:600;color:var(--gul);min-width:64px;text-align:right}
+.tip-merke{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:3px 8px;border-radius:3px;white-space:nowrap}
+.tip-merke.blink{background:var(--gul);color:#0A0A0A}
+.tip-merke.utfall{border:1px solid var(--gul);color:var(--gul)}
+.tip-merke.bom{border:1px solid var(--line);color:var(--dempet)}
+.tip-fot{margin:0;font-size:14px;color:var(--dempet)}
+.tip-fot b{color:var(--gul);font-family:Oswald,sans-serif;font-size:18px}
