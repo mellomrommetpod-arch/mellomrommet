@@ -159,6 +159,23 @@ collections:
               - { name: arena, label: Arena, widget: string, required: false }
               - { name: turnering, label: Turnering, widget: string, required: false }
           - { name: kommentarMerknad, label: "Merknad over Kommentar-saker (etter «Dette er ikke et debattinnlegg.»)", widget: text, required: false }
+          - label: "Gjengen tipper (forsiden)"
+            name: tipping
+            widget: object
+            required: false
+            collapsed: true
+            fields:
+              - { name: kamp, label: "Kamp", widget: string, required: false, hint: "F.eks. Bodø/Glimt – KFUM, lørdag 28. november" }
+              - label: "Tips"
+                name: tips
+                widget: list
+                required: false
+                fields:
+                  - { name: navn, label: "Navn", widget: select, options: ["Børge", "Mads-Birger", "Hans Fredrik"] }
+                  - { name: resultat, label: "Tips (f.eks. 3-1)", widget: string }
+                  - { name: grunn, label: "Begrunnelse (én setning)", widget: string, required: false }
+              - { name: fasit, label: "Fasit (fyll inn etter kampen, f.eks. 3-1)", widget: string, required: false }
+              - { name: kommentar, label: "Tekst under tipsene før fasit", widget: string, required: false }
           - { name: omOssKort, label: "Om oss – kort tekst på forsiden", widget: text }
           - { name: omOss, label: "Om oss – lang tekst", widget: markdown, buttons: [bold, italic, link], editor_components: [] }
           - name: programledere
